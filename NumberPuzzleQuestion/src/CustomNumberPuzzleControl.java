@@ -1,5 +1,5 @@
 import java.awt.*;
-
+import java.util.*;
 class CustomNumberPuzzleControl extends NumberPuzzleControl {
 	public int getWidth() {
 		return 200;
@@ -37,6 +37,18 @@ class CustomNumberPuzzleControl extends NumberPuzzleControl {
 		Button[] buttons = game.getButtons();
 		
 		//Your logic here		
+		int i=0;
+		for(Button b: buttons) {
+			if(b==buttonClicked) {
+				if(emptyCellId==(i+1) || emptyCellId==(i-1) || emptyCellId==(i+4) || emptyCellId==(i-4))
+				{
+					swapButton(buttons[emptyCellId],buttonClicked);
+					emptyCellId=i;
+					break;
+				}
+			}
+			i++;
+		}
 		
 		return emptyCellId;
 
@@ -45,8 +57,18 @@ class CustomNumberPuzzleControl extends NumberPuzzleControl {
 		int arr[] = new int[15];
 		
 		//Your logic here
-		int a = getRandomNumber();
-		
+		//int a = getRandomNumber();
+		ArrayList<Integer> list = new ArrayList<Integer>();
+		for(int i=1;i<=15;i++)
+		{
+			list.add(i);
+		}
+
+		Collections.shuffle(list);
+		for(int i=0;i<15;i++)
+		{
+			arr[i]=list.get(i);
+		}
 		
 		return arr;
 	}
@@ -55,8 +77,13 @@ class CustomNumberPuzzleControl extends NumberPuzzleControl {
 		boolean winner = true;
 		
 		// Your Logic here
-		getIntegerArrayOfButtonIds(buttons);
-
+		int arr[] = getIntegerArrayOfButtonIds(buttons);
+        for(int i=0;i<arr.length;i++) {
+        	if(arr[i+1]!=i) {
+        		winner = false;
+        		break;
+        	}
+        }
 		return winner;
 	}
 }
